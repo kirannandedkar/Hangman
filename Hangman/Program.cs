@@ -6,42 +6,96 @@
         
         static void Main(string[] args)
         {
-            int totalWrongGuessesAllowed = 5;
             int random = new Random().Next(0, secretWords.Count +1);
             FillSecretWords();
             Console.WriteLine("Guess Animals");
             Console.WriteLine("Guess letter");
             string guessedLetter = Console.ReadLine();
-            int nonMatchingLetterCount = 0;
-            string selectRandomWord = secretWords[random];
-            for (int i = 0; i < selectRandomWord.Length; i++)
+            
+            string selectRandomWord = secretWords[random].ToLower();
+            
+            bool ifPlayerWantsPlayMore = true;
+            List<string> consoleWrite = new List<string>();
+            do
             {
-                
-            }
-            foreach (string letter in secretWords)
-            {
-                bool matchedChar = letter.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
-                if (!matchedChar)
+                int maxTriesAllowedAsPerLengthOfWord = selectRandomWord.Length * 50 / 100;
+                int nonMatchingLetterCount = 0;
+                int matchedLetterCount = 0;
+
+                for (int i = 0; i < selectRandomWord.Length; i++)
                 {
-                    Console.WriteLine("Please guess new letter");
-                    guessedLetter = Console.ReadLine();
-                    if (nonMatchingLetterCount > totalWrongGuessesAllowed)
-                    {
-                        Console.WriteLine("You loose");
-                        break;
-                    }
-                    nonMatchingLetterCount++;
+                    consoleWrite.Add("_ ");
                 }
-                else
+                for (int i = 0; i < selectRandomWord.Length; i++)
                 {
+                    bool matchedChar = selectRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
+                             
+                    if (!matchedChar)
+                    {
+                        nonMatchingLetterCount++;
+                        if (nonMatchingLetterCount > maxTriesAllowedAsPerLengthOfWord)
+                        {
+                            Console.WriteLine("You loose");
+                            break;
+                        }
+
+                        Console.WriteLine("Wrong guess. Please guess new letter");
+                        i--;
+                        
+                        guessedLetter = Console.ReadLine();
+                        
+                    }
+                    else
+                    {
+                        matchedLetterCount++;
+                        int selectedLetterIndex = selectRandomWord.IndexOf(guessedLetter, StringComparison.OrdinalIgnoreCase);
+                        if (selectedLetterIndex < 0)
+                        {
+                            selectedLetterIndex = 0;
+                        }
+                        selectRandomWord =  selectRandomWord.Remove(selectedLetterIndex, 1);
+                        selectRandomWord = selectRandomWord.Insert(selectedLetterIndex, "$");
+                        consoleWrite[selectedLetterIndex] = consoleWrite[selectedLetterIndex].Replace("_", guessedLetter);
+                        for (int j = 0; j < consoleWrite.Count; j++)
+                        {
+                            Console.Write(consoleWrite[j]);
+                        }
+                        
+                        Console.WriteLine("\n");
+                        
+
+                        if (matchedLetterCount == selectRandomWord.Length)
+                        {
+                            Console.WriteLine("Congrats you won");
+                            break;
+                        }
+                        guessedLetter = Console.ReadLine();
+
+
+                    }
 
                 }
-            }
+                Console.WriteLine("Press Y if you want to try new word");
+                string input = Console.ReadLine();
+                if (input.ToLower() != "y")
+                {
+                    ifPlayerWantsPlayMore = false;
+                    break;
+                }
+                random = new Random().Next(0, secretWords.Count + 1);
+                selectRandomWord = secretWords[random];
+                Console.Clear();
+                guessedLetter = Console.ReadLine();
+                consoleWrite.Clear();
+            } 
+            while (ifPlayerWantsPlayMore);
+            
+            
         }
 
         static void FillSecretWords()
         {
-            secretWords.Add("Snake");
+            secretWords.Add("Snkke");
             secretWords.Add("Lizard");
             secretWords.Add("Anaconda");
             secretWords.Add("Hippopotamus");
@@ -49,9 +103,9 @@
             secretWords.Add("Penguin");
             secretWords.Add("Kangaroo");
             secretWords.Add("Chihuahua");
-            secretWords.Add("Freshwater Jellyfish");
+            secretWords.Add("Jellyfish");
             secretWords.Add("Gazelle");
-            secretWords.Add("Goblin Shark");
+            secretWords.Add("Shark");
             secretWords.Add("Hyena");
             secretWords.Add("Lemur");
             secretWords.Add("Limpet");
