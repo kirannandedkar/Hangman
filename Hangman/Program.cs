@@ -57,8 +57,8 @@
 
                         Console.WriteLine("Wrong guess. Please guess new letter");
                         PrintOutputToConsole(outputTextToConsole);
+
                         i--;
-                        
                         guessedLetter = Console.ReadLine();
                         
                     }
@@ -66,7 +66,7 @@
                     {
                         
                         List<int> selectedLetterIndexes = new List<int>();
-                        for (int j = 0; j < selectedRandomWord.Length; j++)
+                        for (int j = 0; j < SelectedRandomWordLength; j++)
                         {
                             string selectedLetterFromRandomWord = selectedRandomWord[j].ToString();
                             if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase ))
