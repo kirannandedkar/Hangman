@@ -26,11 +26,7 @@
             string selectedRandomWord = secretWords[random].ToLower();
             Console.WriteLine("Guess Animals");
             Console.WriteLine("Guess letter");
-            Console.WriteLine("selected animal is  " + selectedRandomWord);
             string guessedLetter = Console.ReadLine();
-            
-            
-            
             bool ifPlayerWantsPlayMore = true;
             List<string> outputTextToConsole = new List<string>();
             do
@@ -72,8 +68,8 @@
                         List<int> selectedLetterIndexes = new List<int>();
                         for (int j = 0; j < selectedRandomWord.Length; j++)
                         {
-                            string s = selectedRandomWord[j].ToString();
-                            if (string.Equals(s, guessedLetter, StringComparison.CurrentCultureIgnoreCase ))
+                            string selectedLetterFromRandomWord = selectedRandomWord[j].ToString();
+                            if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase ))
                             {
                                 selectedLetterIndexes.Add(j);
                                 matchedLetterCount++;
