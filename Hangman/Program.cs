@@ -41,49 +41,41 @@
                     outputTextToConsole.Add("_ ");
                 }
 
-                
-                for (int i = 0; i < SelectedRandomWordLength; i++)
+                do
                 {
                     bool matchedChar = selectedRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
-                             
+
                     if (!matchedChar)
                     {
                         nonMatchingLetterCount++;
-                        if (nonMatchingLetterCount > maxTriesAllowedAsPerLengthOfWord)
-                        {
-                            Console.WriteLine("You loose");
-                            break;
-                        }
-
+                      
                         Console.WriteLine("Wrong guess. Please guess new letter");
                         PrintOutputToConsole(outputTextToConsole);
 
-                        i--;
                         guessedLetter = Console.ReadLine();
-                        
+
                     }
                     else
                     {
-                        
                         List<int> selectedLetterIndexes = new List<int>();
                         for (int j = 0; j < SelectedRandomWordLength; j++)
                         {
                             string selectedLetterFromRandomWord = selectedRandomWord[j].ToString();
-                            if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase ))
+                            if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase))
                             {
                                 selectedLetterIndexes.Add(j);
                                 matchedLetterCount++;
                             }
                         }
-                                                
+
                         foreach (var item in selectedLetterIndexes)
                         {
                             outputTextToConsole[item] = outputTextToConsole[item].Replace("_", guessedLetter);
                         }
-                        
+
                         PrintOutputToConsole(outputTextToConsole);
 
-                                               
+
                         if (matchedLetterCount == SelectedRandomWordLength)
                         {
                             Console.WriteLine("Congrats you won");
@@ -91,10 +83,15 @@
                         }
                         guessedLetter = Console.ReadLine();
 
-
                     }
 
+                } while (nonMatchingLetterCount < maxTriesAllowedAsPerLengthOfWord);
+                
+                if (nonMatchingLetterCount >= maxTriesAllowedAsPerLengthOfWord)
+                {
+                    Console.WriteLine("You loose");                    
                 }
+                
                 Console.WriteLine("Press Y if you want to try new word");
                 string input = Console.ReadLine();
                 if (input.ToLower() != "y")
