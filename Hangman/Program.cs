@@ -2,33 +2,53 @@
 {
     internal class Program
     {
-        static List<string> secretWords = new List<string>();
-        
+        static List<string> secretWords = new List<string>()
+        {
+            "Snkke", "Lizard",
+            "Anaconda", "Hippopotamus",
+            "Monkey", "Penguin",
+            "Kangaroo", "Chihuahua",
+            "Jellyfish", "Gazelle",
+            "Shark", "Hyena",
+            "Lemur", "Limpet",
+            "Llama", "Ladybug",
+            "Megalodon","Lemming",
+            "Mongoose", "Pelican",
+            "Puma", "Salamander",
+            "Torkie", "Toxodon",
+            "Walrus", "Zonkey",
+            "Xiaosaurus", "Urial"
+        };
+        static Random rnd = new Random();
         static void Main(string[] args)
         {
-            int random = new Random().Next(0, secretWords.Count +1);
-            FillSecretWords();
+            int random = rnd.Next(0,secretWords.Count);
+            string selectedRandomWord = secretWords[random].ToLower();
             Console.WriteLine("Guess Animals");
             Console.WriteLine("Guess letter");
+            Console.WriteLine("selected animal is  " + selectedRandomWord);
             string guessedLetter = Console.ReadLine();
             
-            string selectRandomWord = secretWords[random].ToLower();
+            
             
             bool ifPlayerWantsPlayMore = true;
-            List<string> consoleWrite = new List<string>();
+            List<string> outputTextToConsole = new List<string>();
             do
             {
-                int maxTriesAllowedAsPerLengthOfWord = selectRandomWord.Length * 50 / 100;
+                int maxTriesAllowedAsPerLengthOfWord = selectedRandomWord.Length * 50 / 100;
                 int nonMatchingLetterCount = 0;
                 int matchedLetterCount = 0;
+                int SelectedRandomWordLength = selectedRandomWord.Length;
 
-                for (int i = 0; i < selectRandomWord.Length; i++)
+                for (int i = 0; i < SelectedRandomWordLength; i++)
                 {
-                    consoleWrite.Add("_ ");
+                    outputTextToConsole.Add("_ ");
                 }
-                for (int i = 0; i < selectRandomWord.Length; i++)
+
+                
+                for (int i = 0; i < SelectedRandomWordLength; i++)
                 {
-                    bool matchedChar = selectRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
+                    bool matchedChar = selectedRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
                              
                     if (!matchedChar)
                     {
@@ -40,6 +60,7 @@
                         }
 
                         Console.WriteLine("Wrong guess. Please guess new letter");
+                        PrintOutputToConsole(outputTextToConsole);
                         i--;
                         
                         guessedLetter = Console.ReadLine();
@@ -47,24 +68,27 @@
                     }
                     else
                     {
-                        matchedLetterCount++;
-                        int selectedLetterIndex = selectRandomWord.IndexOf(guessedLetter, StringComparison.OrdinalIgnoreCase);
-                        if (selectedLetterIndex < 0)
+                        
+                        List<int> selectedLetterIndexes = new List<int>();
+                        for (int j = 0; j < selectedRandomWord.Length; j++)
                         {
-                            selectedLetterIndex = 0;
+                            string s = selectedRandomWord[j].ToString();
+                            if (string.Equals(s, guessedLetter, StringComparison.CurrentCultureIgnoreCase ))
+                            {
+                                selectedLetterIndexes.Add(j);
+                                matchedLetterCount++;
+                            }
                         }
-                        selectRandomWord =  selectRandomWord.Remove(selectedLetterIndex, 1);
-                        selectRandomWord = selectRandomWord.Insert(selectedLetterIndex, "$");
-                        consoleWrite[selectedLetterIndex] = consoleWrite[selectedLetterIndex].Replace("_", guessedLetter);
-                        for (int j = 0; j < consoleWrite.Count; j++)
+                                                
+                        foreach (var item in selectedLetterIndexes)
                         {
-                            Console.Write(consoleWrite[j]);
+                            outputTextToConsole[item] = outputTextToConsole[item].Replace("_", guessedLetter);
                         }
                         
-                        Console.WriteLine("\n");
-                        
+                        PrintOutputToConsole(outputTextToConsole);
 
-                        if (matchedLetterCount == selectRandomWord.Length)
+                                               
+                        if (matchedLetterCount == SelectedRandomWordLength)
                         {
                             Console.WriteLine("Congrats you won");
                             break;
@@ -79,52 +103,27 @@
                 string input = Console.ReadLine();
                 if (input.ToLower() != "y")
                 {
-                    ifPlayerWantsPlayMore = false;
                     break;
                 }
-                random = new Random().Next(0, secretWords.Count + 1);
-                selectRandomWord = secretWords[random];
+                random = rnd.Next(secretWords.Count);
+                selectedRandomWord = secretWords[random];
                 Console.Clear();
                 guessedLetter = Console.ReadLine();
-                consoleWrite.Clear();
+                outputTextToConsole.Clear();
             } 
             while (ifPlayerWantsPlayMore);
-            
-            
+                        
         }
 
-        static void FillSecretWords()
+        static void PrintOutputToConsole(List<string> input)
         {
-            secretWords.Add("Snkke");
-            secretWords.Add("Lizard");
-            secretWords.Add("Anaconda");
-            secretWords.Add("Hippopotamus");
-            secretWords.Add("Monkey");
-            secretWords.Add("Penguin");
-            secretWords.Add("Kangaroo");
-            secretWords.Add("Chihuahua");
-            secretWords.Add("Jellyfish");
-            secretWords.Add("Gazelle");
-            secretWords.Add("Shark");
-            secretWords.Add("Hyena");
-            secretWords.Add("Lemur");
-            secretWords.Add("Limpet");
-            secretWords.Add("Llama");
-            secretWords.Add("Ladybug");
-            secretWords.Add("Megalodon");
-            secretWords.Add("Lemming");
-            secretWords.Add("Mongoose");
-            secretWords.Add("Pelican");
-            secretWords.Add("Puma");
-            secretWords.Add("Salamander");
-            secretWords.Add("Torkie");
-            secretWords.Add("Toxodon");
-            secretWords.Add("Walrus");
-            secretWords.Add("Zonkey");
-            secretWords.Add("Xiaosaurus");
-            secretWords.Add("Urial");
-
-
+            for (int j = 0; j < input.Count; j++)
+            {
+                Console.Write(input[j]);
+            }
+            Console.WriteLine("\n");
         }
+
+
     }
 }
