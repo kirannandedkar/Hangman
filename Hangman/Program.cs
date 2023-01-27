@@ -53,10 +53,6 @@
                     {
                         nonMatchingLetterCount++;
                         ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- nonMatchingLetterCount} attempt remaining");
-                        PrintOutputToConsole(outputTextToConsole);
-
-                        guessedLetter = Console.ReadLine();
-
                     }
                     else
                     {
@@ -73,20 +69,18 @@
                                     matchedLetterCount++;
                                 }
                             }
-
                         }
                         
-                        PrintOutputToConsole(outputTextToConsole);
-
-
                         if (matchedLetterCount == SelectedRandomWordLength)
                         {
-                            Console.WriteLine("Congrats you won");
+                            PrintOutputToConsole(outputTextToConsole);
+                            Console.WriteLine("Congrats you won.");
                             break;
                         }
-                        guessedLetter = Console.ReadLine();
-
                     }
+                    PrintOutputToConsole(outputTextToConsole);
+                    guessedLetter = Console.ReadLine();
+                    
 
                 } while (nonMatchingLetterCount < maxTriesAllowedAsPerLengthOfWord);
                 
