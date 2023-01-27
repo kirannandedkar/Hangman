@@ -22,20 +22,19 @@
         static Random rnd = new Random();
         static void Main(string[] args)
         {
-            int random = rnd.Next(0,secretWords.Count);
-            string selectedRandomWord = secretWords[random].ToLower();
-            Console.WriteLine("Guess Animals");
-            
-            
             
             bool ifPlayerWantsPlayMore = true;
             List<string> outputTextToConsole = new List<string>();
             do
             {
+                int random = rnd.Next(secretWords.Count);
+                string selectedRandomWord = secretWords[random];
                 int maxTriesAllowedAsPerLengthOfWord = selectedRandomWord.Length * 50 / 100;
                 int nonMatchingLetterCount = 0;
                 int matchedLetterCount = 0;
                 int SelectedRandomWordLength = selectedRandomWord.Length;
+                Console.Clear();
+                Console.WriteLine("Guess Animals");
                 Console.WriteLine("Guess letter");
                 ColorOutputToConsole(ConsoleColor.DarkBlue, ConsoleColor.White, $"You have total {maxTriesAllowedAsPerLengthOfWord} tries to guess letter");
                 string guessedLetter = Console.ReadLine();
@@ -48,6 +47,7 @@
                 do
                 {
                     bool matchedChar = selectedRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
+                    bool isLetterAlreadyGuessed = false;
 
                     if (!matchedChar)
                     {
@@ -61,19 +61,23 @@
                     else
                     {
                         List<int> selectedLetterIndexes = new List<int>();
-                        for (int j = 0; j < SelectedRandomWordLength; j++)
+                        if (!outputTextToConsole.Contains(guessedLetter, StringComparer.OrdinalIgnoreCase))
                         {
-                            string selectedLetterFromRandomWord = selectedRandomWord[j].ToString();
-                            if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase))
+                            for (int j = 0; j < SelectedRandomWordLength; j++)
                             {
-                                selectedLetterIndexes.Add(j);
-                                matchedLetterCount++;
+                                string selectedLetterFromRandomWord = selectedRandomWord[j].ToString();
+                                if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    selectedLetterIndexes.Add(j);
+                                    matchedLetterCount++;
+                                }
                             }
+
                         }
 
                         foreach (var item in selectedLetterIndexes)
                         {
-                            outputTextToConsole[item] = outputTextToConsole[item].Replace("_", guessedLetter);
+                            outputTextToConsole[item] = outputTextToConsole[item].Replace(" _ ", guessedLetter);
                         }
 
                         PrintOutputToConsole(outputTextToConsole);
@@ -102,9 +106,7 @@
                 {
                     break;
                 }
-                random = rnd.Next(secretWords.Count);
-                selectedRandomWord = secretWords[random];
-                Console.Clear();
+                                
                 outputTextToConsole.Clear();
             } 
             while (ifPlayerWantsPlayMore);
