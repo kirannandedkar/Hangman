@@ -69,17 +69,13 @@
                                 if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     selectedLetterIndexes.Add(j);
+                                    outputTextToConsole[j] = outputTextToConsole[j].Replace(" _ ", guessedLetter);
                                     matchedLetterCount++;
                                 }
                             }
 
                         }
-
-                        foreach (var item in selectedLetterIndexes)
-                        {
-                            outputTextToConsole[item] = outputTextToConsole[item].Replace(" _ ", guessedLetter);
-                        }
-
+                        
                         PrintOutputToConsole(outputTextToConsole);
 
 
