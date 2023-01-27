@@ -25,8 +25,9 @@
             int random = rnd.Next(0,secretWords.Count);
             string selectedRandomWord = secretWords[random].ToLower();
             Console.WriteLine("Guess Animals");
-            Console.WriteLine("Guess letter");
-            string guessedLetter = Console.ReadLine();
+            
+            
+            
             bool ifPlayerWantsPlayMore = true;
             List<string> outputTextToConsole = new List<string>();
             do
@@ -35,10 +36,13 @@
                 int nonMatchingLetterCount = 0;
                 int matchedLetterCount = 0;
                 int SelectedRandomWordLength = selectedRandomWord.Length;
+                Console.WriteLine("Guess letter");
+                ColorOutputToConsole(ConsoleColor.DarkBlue, ConsoleColor.White, $"You have total {maxTriesAllowedAsPerLengthOfWord} tries to guess letter");
+                string guessedLetter = Console.ReadLine();
 
                 for (int i = 0; i < SelectedRandomWordLength; i++)
                 {
-                    outputTextToConsole.Add("_ ");
+                    outputTextToConsole.Add(" _ ");
                 }
 
                 do
@@ -48,8 +52,7 @@
                     if (!matchedChar)
                     {
                         nonMatchingLetterCount++;
-                      
-                        Console.WriteLine("Wrong guess. Please guess new letter");
+                        ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- nonMatchingLetterCount} attempt remaining");
                         PrintOutputToConsole(outputTextToConsole);
 
                         guessedLetter = Console.ReadLine();
@@ -89,10 +92,11 @@
                 
                 if (nonMatchingLetterCount >= maxTriesAllowedAsPerLengthOfWord)
                 {
-                    Console.WriteLine("You loose");                    
+                    ColorOutputToConsole(ConsoleColor.DarkRed, ConsoleColor.White, "You loose");
                 }
                 
-                Console.WriteLine("Press Y if you want to try new word");
+                ColorOutputToConsole(ConsoleColor.DarkYellow, ConsoleColor.White, "Press Y if you want to try new word");
+                ColorOutputToConsole(ConsoleColor.Black, ConsoleColor.White, "");
                 string input = Console.ReadLine();
                 if (input.ToLower() != "y")
                 {
@@ -101,7 +105,6 @@
                 random = rnd.Next(secretWords.Count);
                 selectedRandomWord = secretWords[random];
                 Console.Clear();
-                guessedLetter = Console.ReadLine();
                 outputTextToConsole.Clear();
             } 
             while (ifPlayerWantsPlayMore);
@@ -110,11 +113,21 @@
 
         static void PrintOutputToConsole(List<string> input)
         {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+
             for (int j = 0; j < input.Count; j++)
             {
                 Console.Write(input[j]);
             }
             Console.WriteLine("\n");
+        }
+
+        static void ColorOutputToConsole(ConsoleColor background, ConsoleColor foreground, string input)
+        {
+            Console.BackgroundColor = background;
+            Console.ForegroundColor = foreground;
+            Console.WriteLine(input);
         }
 
 
