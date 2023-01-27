@@ -23,14 +23,14 @@
         static void Main(string[] args)
         {
             
-            bool ifPlayerWantsPlayMore = true;
-            List<string> outputTextToConsole = new List<string>();
+            bool contineToPlay = true;
+            List<string> correctLettersGuessedList = new List<string>();
             do
             {
                 int random = rnd.Next(secretWords.Count);
                 string selectedRandomWord = secretWords[random];
                 int maxTriesAllowedAsPerLengthOfWord = selectedRandomWord.Length * 50 / 100;
-                int nonMatchingLetterCount = 0;
+                int noOfGuessesCount = 0;
                 int matchedLetterCount = 0;
                 int SelectedRandomWordLength = selectedRandomWord.Length;
                 Console.Clear();
@@ -41,7 +41,7 @@
 
                 for (int i = 0; i < SelectedRandomWordLength; i++)
                 {
-                    outputTextToConsole.Add(" _ ");
+                    correctLettersGuessedList.Add(" _ ");
                 }
 
                 do
@@ -51,13 +51,13 @@
 
                     if (!matchedChar)
                     {
-                        nonMatchingLetterCount++;
-                        ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- nonMatchingLetterCount} attempt remaining");
+                        noOfGuessesCount++;
+                        ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- noOfGuessesCount} attempt remaining");
                     }
                     else
                     {
                         List<int> selectedLetterIndexes = new List<int>();
-                        if (!outputTextToConsole.Contains(guessedLetter, StringComparer.OrdinalIgnoreCase))
+                        if (!correctLettersGuessedList.Contains(guessedLetter, StringComparer.OrdinalIgnoreCase))
                         {
                             for (int j = 0; j < SelectedRandomWordLength; j++)
                             {
@@ -65,7 +65,7 @@
                                 if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     selectedLetterIndexes.Add(j);
-                                    outputTextToConsole[j] = outputTextToConsole[j].Replace(" _ ", guessedLetter);
+                                    correctLettersGuessedList[j] = correctLettersGuessedList[j].Replace(" _ ", guessedLetter);
                                     matchedLetterCount++;
                                 }
                             }
@@ -73,18 +73,18 @@
                         
                         if (matchedLetterCount == SelectedRandomWordLength)
                         {
-                            PrintOutputToConsole(outputTextToConsole);
+                            PrintOutputToConsole(correctLettersGuessedList);
                             Console.WriteLine("Congrats you won.");
                             break;
                         }
                     }
-                    PrintOutputToConsole(outputTextToConsole);
+                    PrintOutputToConsole(correctLettersGuessedList);
                     guessedLetter = Console.ReadLine();
                     
 
-                } while (nonMatchingLetterCount < maxTriesAllowedAsPerLengthOfWord);
+                } while (noOfGuessesCount < maxTriesAllowedAsPerLengthOfWord);
                 
-                if (nonMatchingLetterCount >= maxTriesAllowedAsPerLengthOfWord)
+                if (noOfGuessesCount >= maxTriesAllowedAsPerLengthOfWord)
                 {
                     ColorOutputToConsole(ConsoleColor.DarkRed, ConsoleColor.White, "You loose");
                 }
@@ -97,9 +97,9 @@
                     break;
                 }
                                 
-                outputTextToConsole.Clear();
+                correctLettersGuessedList.Clear();
             } 
-            while (ifPlayerWantsPlayMore);
+            while (contineToPlay);
                         
         }
 
