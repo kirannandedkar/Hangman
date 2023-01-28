@@ -88,7 +88,7 @@
                 
                 if (noOfGuessesCount >= maxTriesAllowedAsPerLengthOfWord)
                 {
-                    ColorOutputToConsole(ConsoleColor.DarkRed, ConsoleColor.White, "You loose");
+                    ColorOutputToConsole(ConsoleColor.DarkRed, ConsoleColor.White, $"You loose. The correct letter was {selectedRandomWord}");
                 }
                 
                 ColorOutputToConsole(ConsoleColor.DarkYellow, ConsoleColor.White, "Press Y if you want to try new word");
