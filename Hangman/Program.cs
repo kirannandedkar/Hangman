@@ -46,14 +46,14 @@
 
                 do
                 {
-                    string guessedLetter = Console.ReadLine();
+                    
+                    string guessedLetter = Console.ReadKey().KeyChar.ToString();
                     bool matchedChar = selectedRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
-                    bool isLetterAlreadyGuessed = false;
-
+                    
                     if (!matchedChar)
                     {
                         noOfGuessesCount++;
-                        ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- noOfGuessesCount} attempt remaining");
+                        ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"\n Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- noOfGuessesCount} attempt remaining");
                     }
                     else
                     {
@@ -77,6 +77,7 @@
                             break;
                         }
                     }
+
                     PrintOutputToConsole(correctLettersGuessedList);
 
                 } while (noOfGuessesCount < maxTriesAllowedAsPerLengthOfWord);
@@ -104,6 +105,8 @@
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\n");
 
             for (int j = 0; j < input.Count; j++)
             {
