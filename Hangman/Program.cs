@@ -37,7 +37,7 @@
                 Console.WriteLine("Guess Animals");
                 Console.WriteLine("Guess letter");
                 ColorOutputToConsole(ConsoleColor.DarkBlue, ConsoleColor.White, $"You have total {maxTriesAllowedAsPerLengthOfWord} tries to guess letter");
-                string guessedLetter = Console.ReadLine();
+                
 
                 for (int i = 0; i < SelectedRandomWordLength; i++)
                 {
@@ -46,6 +46,7 @@
 
                 do
                 {
+                    string guessedLetter = Console.ReadLine();
                     bool matchedChar = selectedRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
                     bool isLetterAlreadyGuessed = false;
 
@@ -77,8 +78,6 @@
                         }
                     }
                     PrintOutputToConsole(correctLettersGuessedList);
-                    guessedLetter = Console.ReadLine();
-                    
 
                 } while (noOfGuessesCount < maxTriesAllowedAsPerLengthOfWord);
                 
