@@ -69,6 +69,10 @@
                                 }
                             }
                         }
+                        else
+                        {
+                            Console.WriteLine("\n You already guessed");
+                        }
                         
                         if (matchedLetterCount == SelectedRandomWordLength)
                         {
