@@ -56,7 +56,6 @@
                     }
                     else
                     {
-                        List<int> selectedLetterIndexes = new List<int>();
                         if (!correctLettersGuessedList.Contains(guessedLetter, StringComparer.OrdinalIgnoreCase))
                         {
                             for (int j = 0; j < SelectedRandomWordLength; j++)
@@ -64,7 +63,6 @@
                                 string selectedLetterFromRandomWord = selectedRandomWord[j].ToString();
                                 if (string.Equals(selectedLetterFromRandomWord, guessedLetter, StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    selectedLetterIndexes.Add(j);
                                     correctLettersGuessedList[j] = correctLettersGuessedList[j].Replace(" _ ", guessedLetter);
                                     matchedLetterCount++;
                                 }
