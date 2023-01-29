@@ -33,6 +33,7 @@
                 int noOfGuessesCount = 0;
                 int matchedLetterCount = 0;
                 int SelectedRandomWordLength = selectedRandomWord.Length;
+                List<string> guessedLettersInGameSoFar = new List<string>();
                 Console.Clear();
                 Console.WriteLine("Guess Animals");
                 Console.WriteLine("Guess letter");
@@ -45,16 +46,22 @@
                 }
 
                 do
-                {
-                    
+                {   
                     string guessedLetter = Console.ReadKey().KeyChar.ToString();
                     bool matchedChar = selectedRandomWord.Contains(guessedLetter, StringComparison.OrdinalIgnoreCase);
-                    
-                    if (!matchedChar)
+
+
+                    if (guessedLettersInGameSoFar.Contains(guessedLetter, StringComparer.OrdinalIgnoreCase))
+                    {
+                        Console.WriteLine("\nYou have already guessed this letter");
+                        
+                    }
+                    else if (!matchedChar )
                     {
                         noOfGuessesCount++;
                         ColorOutputToConsole(ConsoleColor.Red, ConsoleColor.White, $"\n Wrong guess. Try new letter. You have now {maxTriesAllowedAsPerLengthOfWord- noOfGuessesCount} attempt remaining");
                     }
+                    
                     else
                     {
                         if (!correctLettersGuessedList.Contains(guessedLetter, StringComparer.OrdinalIgnoreCase))
@@ -69,19 +76,16 @@
                                 }
                             }
                         }
-                        else
-                        {
-                            Console.WriteLine("\n You already guessed");
-                        }
                         
                         if (matchedLetterCount == SelectedRandomWordLength)
                         {
                             PrintOutputToConsole(correctLettersGuessedList);
                             Console.WriteLine("Congrats you won.");
+                            guessedLettersInGameSoFar.Clear();
                             break;
                         }
                     }
-
+                    guessedLettersInGameSoFar.Add(guessedLetter);
                     PrintOutputToConsole(correctLettersGuessedList);
 
                 } while (noOfGuessesCount < maxTriesAllowedAsPerLengthOfWord);
@@ -89,6 +93,7 @@
                 if (noOfGuessesCount >= maxTriesAllowedAsPerLengthOfWord)
                 {
                     ColorOutputToConsole(ConsoleColor.DarkRed, ConsoleColor.White, $"You loose. The correct letter was {selectedRandomWord}");
+                    guessedLettersInGameSoFar.Clear();
                 }
                 
                 ColorOutputToConsole(ConsoleColor.DarkYellow, ConsoleColor.White, "Press Y if you want to try new word");
